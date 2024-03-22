@@ -44,21 +44,21 @@ public:
 
   // These are operator overloads, this makes it possible to do something like
   // BaseNumber1 + BaseNumber2. Thses are used in the arith function in main.
-  inline BaseNumber operator+(const BaseNumber &other) const {
+  inline BaseNumber *operator+(const BaseNumber &other) const {
     int resultValue = stoi(this->value) + stoi(other.value);
-    BaseNumber num(to_string(resultValue), "0d");
-    if (num.type != type) {
-      num.convertTo(type);
+    BaseNumber *num = new BaseNumber(to_string(resultValue), "0d");
+    if (num->type != type) {
+      num->convertTo(type);
     }
     return num;
   }
 
-  inline BaseNumber operator-(const BaseNumber &other) const {
+  inline BaseNumber *operator-(const BaseNumber &other) const {
     int resultValue = stoi(this->value) - stoi(other.value);
-    BaseNumber num(to_string(resultValue), "0d");
+    BaseNumber *num = new BaseNumber(to_string(resultValue), "0d");
 
-    if (num.type != type) {
-      num.convertTo(type);
+    if (num->type != type) {
+      num->convertTo(type);
     }
     return num;
   }

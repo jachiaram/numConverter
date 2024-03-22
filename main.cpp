@@ -14,9 +14,9 @@ using namespace std;
 // returns true if there's overflow, false if there's not
 bool oFChkr(int test) {
   if (test < 0 || test > 268435455) {
-    return true;
-  } else {
     return false;
+  } else {
+    return true;
   }
 }
 
@@ -52,7 +52,6 @@ BaseNumber *getInput() {
         return newNum;
       }
 
-      delete newNum;
     } else {
       cout << "Invalid input. Try again." << endl;
     }
@@ -64,7 +63,7 @@ BaseNumber arithFunct(BaseNumber *num1) {
   string typeTo = num1->getType();
   cout << "Enter a number: " << endl;
   BaseNumber *num2 = getInput();
-  BaseNumber result("0", "0d");
+  BaseNumber *result = new BaseNumber("0", "0d");
 
   if (num1->getType() != "0d") {
     num1->convertTo("0d");
@@ -95,17 +94,16 @@ BaseNumber arithFunct(BaseNumber *num1) {
   }
 
   // checking for overflow here, throwing an overflow exception
-  if (result.getValue() < 0 || result.getValue() > 268435455) {
+  if (result->getValue() < 0 || result->getValue() > 268435455) {
     throw std::overflow_error("Overflow, number can't be displayed");
   }
 
-  if (result.getType() != typeTo) {
-    result.convertTo(typeTo);
+  if (result->getType() != typeTo) {
+    result->convertTo(typeTo);
   }
 
-  cout << result.getNum() << endl;
-  delete num2;
-  return result;
+  cout << result->getNum() << endl;
+  return *result;
 }
 
 // gets number for menu in manualMode of the program
@@ -193,11 +191,11 @@ void convertArray(vector<BaseNumber> &numArray, string type) {
 // writes the array in its current state to the out file
 void saveArray(vector<BaseNumber> &numArray, string ofile) {
   ofstream file(ofile);
-  if (!file) {
+  if (file) {
     cerr << "ERROR: File not found" << endl;
     exit(1);
   }
-  for (size_t i = 0; i < numArray.size(); i++) {
+  for (size_t i = 1; i < numArray.size(); i++) {
     file << numArray[i].getNum() << endl;
   }
 
