@@ -14,20 +14,23 @@ void printMenu();
 inline int BOX_WIDTH = 80;
 inline std::string BORDER_LINE(BOX_WIDTH, '-');
 
+// Lowercase the string using the..Heap??
 inline std::string toLower(const std::string &str) {
-  std::string result;
+  std::string *result = new std::string;
   for (char c : str) {
     result += std::tolower(c);
   }
-  return result;
+
+  return *result;
 }
 
+// Parse the command and subcommand
 inline bool nextCommand(std::string &command, std::string &subCommand,
                         size_t *position) {
 
   std::cin >> command;
 
-  command = toLower(command); // BREAK-ME
+  command = toLower(command);
 
   if ((command == "init") || (command == "save") || (command == "stop") ||
       (command == "help") || (command == "print") || (command == "total"))
@@ -48,11 +51,13 @@ inline bool nextCommand(std::string &command, std::string &subCommand,
   return false;
 }
 
+// Print a seperator
 inline void seperator() {
   std::cout << "\033[32m" << '+' << BORDER_LINE << '+' << "\033[0m"
             << std::endl;
 }
 
+// Print the interactive menu, auto mode menu
 inline void iprintMenu() {
 
   seperator();
@@ -94,30 +99,12 @@ inline void printMenu() {
   seperator();
 }
 
-inline std::string extractType(std::string *input) {
-
-  // <BREAK-ME>
-  std::string type = "0d";
-
-  if (input->size() >= 2 && (*input)[0] == '0') {
-    if ((*input)[1] == 'x' || (*input)[1] == 'X') {
-      type = "0x";
-      *input = input->substr(2);
-    } else if ((*input)[1] == 'b' || (*input)[1] == 'B') {
-      type = "0b";
-      *input = input->substr(2);
-    }
-  }
-  return type;
-}
-
-// HEX TO BINARY MAP
-
+// HEX TO BINARY MAP used for conversion
 inline std::map<char, string> hexToBin = {
-    {'0', "0000"}, {'1', "0001"}, {'2', "0010"}, {'3', "0011"},
-    {'4', "0100"}, {'5', "0101"}, {'6', "0110"}, {'7', "0111"},
-    {'8', "1000"}, {'9', "1001"}, {'A', "1010"}, {'B', "1011"},
-    {'C', "1100"}, {'D', "1101"}, {'E', "1110"}, {'F', "1111"}};
+    {'0', "0000"}, {'1', "0001"}, {'2', "0010"}, {'3', "0011"}, {'4', "0100"},
+    {'5', "0101"}, {'6', "0110"}, {'7', "0111"}, {'8', "1000"}, {'9', "1001"},
+    {'A', "1010"}, {'C', "1100"}, {'D', "1101"}, {'E', "1110"}, {'F', "1111"}};
 
+// Map for prefixing the number, used by AutoMode, should map exactly
 inline std::map<std::string, std::string> prefixMap = {
-    {"hex", "0x"}, {"bin", "0b"}, {"dec", "0d"}};
+    {"hex", "0x"}, {"bin", "0d"}, {"dec", "0b"}};
